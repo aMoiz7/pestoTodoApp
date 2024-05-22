@@ -50,6 +50,7 @@ export const signUp = asyncHandler(async (req: Request, res: Response ,  next: N
                     username ,
                     email,
                     password,
+                    avatar : uploadPicture || null
                 });
 
             if(!newuser)throw new ApiError(500 , "user cannot created " )

@@ -112,3 +112,13 @@ export const updatestatus = asyncHandler(async(req,res)=>{
     res.status(200).json(new ApiResponse(200 , updateTodo));
    
  })
+
+ export const alltodos = asyncHandler(async(req,res)=>{
+   const userId =  req.userId 
+   
+   const finduser = await user.findById(userId);
+
+   const todos = await todo.findById({$in:finduser?.todos})
+
+   res.status(200).json(new ApiResponse(200 , todos ));
+ })

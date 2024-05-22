@@ -47,12 +47,12 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.ispasswordCorrect = async function(password:string){
     return bcrypt.compare(password , this.password)
 }
-
+const sec = process.env.SECRET
 userSchema.methods.generateAccessToken = async function(){
     return jwt.sign({
         name : this.name,
         email:this.email
-    },process.env.SECRET,{
+    },sec!,{
         expiresIn:"10D"
     })
 }
