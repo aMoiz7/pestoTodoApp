@@ -48,6 +48,7 @@ userSchema.methods.ispasswordCorrect = async function(password:string){
     return bcrypt.compare(password , this.password)
 }
 const sec = process.env.SECRET
+console.log(sec,"sec")
 userSchema.methods.generateAccessToken = async function(){
     return jwt.sign({
         name : this.name,

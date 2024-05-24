@@ -17,3 +17,23 @@ export const loginUser = async (data:Data) => {
     }
 
   }
+
+  type SignupData={
+    name:FormData;
+    username:FormData,
+    email:FormData;
+    password:FormData;
+  }
+
+export const signupUser = async(formdata:any)=>{
+    console.log(formdata)
+    const res = await axios.post("http://localhost:2000/api/v1/user/signup" , formdata, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    }
+    );
+    
+    return res.data 
+}
+   

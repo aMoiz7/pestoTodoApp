@@ -3,11 +3,14 @@ import { loginUser } from '../apis/userapi';
 import Cookies from 'js-cookie';
 import { UseDispatch, useDispatch } from 'react-redux';
 import { userdata } from '../slice/userSlice';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const login = () => {
   
   const [data , setdata ] = useState({email:"" , password :""});
   const dispatch = useDispatch();
+
+  const navigate = useNavigate()
 
   const handler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,6 +23,8 @@ const login = () => {
     const res = await loginUser(data);
     if(res.data.accessToken){
       Cookies.set("accessToken",res.data.accessToken , {expires:7})
+      navigate("/home")
+
     }
 
     if(res.data.user){

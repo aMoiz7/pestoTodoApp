@@ -27,7 +27,7 @@ export const signUp = asyncHandler(async (req: Request, res: Response ,  next: N
         // Explicitly define the type of req.body
         const { name, username, email, password } = req.body;
         
-        if([name , username ,email , password].some((feilds)=>feilds.trim()===""))
+        if([name , username ,email , password].some((feilds)=> feilds === ""))
             throw new ApiError(400 , "all feilds are required" );
 
          const existingUser = await user.findOne({
@@ -37,6 +37,7 @@ export const signUp = asyncHandler(async (req: Request, res: Response ,  next: N
          if(existingUser)throw new ApiError(400 , "user alread Exist")
 
              const profile = req.files?.avatar[0]?.path
+             console.log(profile,"pro")
           
             if(!profile) throw new ApiError(400 , "avatar is required")
 

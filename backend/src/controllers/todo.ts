@@ -109,7 +109,7 @@ export const updatestatus = asyncHandler(async(req,res)=>{
 
  
  
-    res.status(200).json(new ApiResponse(200 , updateTodo));
+    res.status(200).json(new ApiResponse(200 , findTodo.status));
    
  })
 
@@ -118,7 +118,8 @@ export const updatestatus = asyncHandler(async(req,res)=>{
    
    const finduser = await user.findById(userId);
 
-   const todos = await todo.findById({$in:finduser?.todos})
-
+   const todos = await todo.find({
+    _id: { $in: finduser!.todos },
+  });
    res.status(200).json(new ApiResponse(200 , todos ));
  })
