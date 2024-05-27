@@ -13,7 +13,7 @@ const generateAccessToken = async(userid:any) =>{
      
      if(!finduser) throw new ApiError(400 , "user not find for creating accesstoken")
  
-     const accessToken =  finduser.generateAccessToken()
+     const accessToken:String =  finduser.generateAccessToken()
  
      return accessToken;
    } catch (error:any) {

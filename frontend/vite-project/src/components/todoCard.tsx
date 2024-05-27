@@ -1,65 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import { FaTrash } from 'react-icons/fa'
+import React, { useEffect, useState } from 'react';
+import { FaTrash } from 'react-icons/fa';
 
-const todoCard = ({ id,  title , description , status , handleUpdateStatus , handleDeleteTodo }:any) => {
-   
-   const [updatestatus , setUpdateStatus] = useState(status)  
+const TodoCard = ({ id, title, description, status, handleUpdateStatus, handleDeleteTodo }: any) => {
+    const [updateStatus, setUpdateStatus] = useState(status);
 
-    console.log(status)
-   const updateHandler = async(newstatus:string)=>{
-    try {
-      await handleUpdateStatus(id , newstatus)
-      setUpdateStatus(newstatus)
-    } catch (error) {
-      console.error('Error updating status:', error);
+    const updateHandler = async (newStatus: string) => {
+        try {
+            await handleUpdateStatus(id, newStatus);
+            setUpdateStatus(newStatus);
+        } catch (error) {
+            console.error('Error updating status:', error);
+        }
+    };
 
-    }
-   }
+    const deleteHandler = async () => {
+        await handleDeleteTodo(id);
+    };
 
-   const deleteHandler =async()=>{
-    await handleDeleteTodo(id)
-   } 
-
-  return (
-    <div>
-       <div>
-     
- <div className="bg-white  flex flex-col   ">
-    <div className="mx-auto  lg:px-0 flex flex-col">
-
-      <div className="mx-auto mt-0 grid max-w-l grid-cols-3 gap-x-8 gap-y-1 border-t border-gray-200 pt-5 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-        <article className="flex max-w-xl flex-col items-start justify-between">
-        
-          <div className="group relative">
-            <h3 className=" text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-              <a href="#">
-
-                <span className="absolute inset-0" />
-                {title}
-              </a>
-              <select
-                 className="relative rounded-full bg-gray-50 my-5 mx-4 text-sm text-gray-600 hover:bg-gray-100"
-                  value={updatestatus}
-                  onChange={(e) => updateHandler(e.target.value)}
+    return (
+      
+        <div className="max-w-lg mx-auto mt-10 mb-4 p-4 rounded-md shadow-md bg-white">
+            <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+                <FaTrash className="text-red-500 cursor-pointer" onClick={deleteHandler} />
+            </div>
+            <p className="text-sm text-gray-600 mt-2">{description}</p>
+            <div className="mt-4">
+                <select
+                    className="w-full rounded-full bg-gray-50 text-sm text-gray-600 hover:bg-gray-100"
+                    value={updateStatus}
+                    onChange={(e) => updateHandler(e.target.value)}
                 >
-                  <option value="Pending">Pending</option>
-                  <option value="Inprogress">In Progress</option>
-                  <option value="Done">Done</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Inprogress">In Progress</option>
+                    <option value="Done">Done</option>
                 </select>
-            </h3>
-            <p className=" line-clamp-3 text-m leading-6 text-gray-600">{description}</p>
-          </div>
+            </div>
+        </div>
+    );
+};
 
-          <FaTrash className='mt-3' onClick={deleteHandler}/>
-          
-        </article>
-       
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-  )
-}
-
-export default todoCard
+export default TodoCard;

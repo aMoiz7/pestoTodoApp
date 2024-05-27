@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 const NewTodoModal = ({ isOpen, onClose, onSave }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const handleSave = () => {
     if (title && description) {
