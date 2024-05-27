@@ -1,55 +1,75 @@
 import React, { useEffect, useState } from 'react';
-import { allTodos } from '../apis/todoApi';
+import { allTodos, deleteTodo, updateTodoStatus } from '../apis/todoApi';
 import TodoCard from './../components/todoCard';
 import Profile from '../components/profile';
+
 const Todo = () => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await allTodos();
-        console.log('Fetched data:', data);
+  const handleUpdateStatus = async (id, newStatus) => {
+    try {
+      const updatedTodo = await updateTodoStatus(id, newStatus);
+      setTodos(prevTodos =>
+        prevTodos.map(todo =>
+          todo._id === id ? { ...todo, status: updatedTodo.data.status } : todo
+        )
+      );
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
 
-        // Ensure data is an array
-        if (data.data && Array.isArray(data.data)) {
-            setTodos(data.data); // Directly set todos to the array of data
-          } else {
-            console.error('Unexpected data format:', data);
-          }
-        
-      } catch (error) {
-        console.error('Error fetching todos:', error);
-      } finally {
-        setLoading(false); // Ensure loading is set to false regardless of success or failure
+  const fetchData = async () => {
+    try {
+      const data = await allTodos();
+      if (data.data && Array.isArray(data.data)) {
+        setTodos(data.data);
+      } else {
+        console.error('Unexpected data format:', data);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching todos:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
-  console.log(todos)
+  const handleDeleteTodo = async (id) => {
+    try {
+      await deleteTodo(id);
+      setTodos(prevTodos => prevTodos.filter(todo => todo._id !== id));
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+  };
+
+  const onAddnewTodo =(newtodo:[])=>{
+      setTodos((prev)=>[...prev , newtodo])
+  }
+
   return (
-    
     <div>
-         <Profile/>
+      <Profile fetchData={fetchData} onAddnewTodo={onAddnewTodo} />
       {loading ? (
         <h1>Loading...</h1>
       ) : (
         todos.length > 0 ? (
-          todos.map((todo) => {
-            console.log('Rendering TodoCard for:', todo); // Log todo being rendered
-            return (
-               
-              <TodoCard
+          todos.map(todo => (
+            <TodoCard
               key={todo._id}
-              id={todo._id} 
-                title={todo.title}
-                description={todo.description}
-                status={todo.status}
-              />
-            );
-          })
+              id={todo._id}
+              title={todo.title}
+              description={todo.description}
+              status={todo.status}
+              handleUpdateStatus={handleUpdateStatus}
+              handleDeleteTodo={handleDeleteTodo}
+            />
+          ))
         ) : (
           <h1>No todos found.</h1>
         )

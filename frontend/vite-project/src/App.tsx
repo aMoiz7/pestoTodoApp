@@ -21,7 +21,7 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Signup/>}/>
-        <Route path='/home' element={<Home/>}/>
+        <Route path='/' element={<Home/>}/>
         {/* <Route path='/tc'  element={<TodoCard  title={"my"} description={"des"} status={"done"} />}/> */}
       </Routes>
     </BrowserRouter>

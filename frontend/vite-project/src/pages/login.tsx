@@ -6,6 +6,8 @@ import { userdata } from '../slice/userSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const login = () => {
+
+  
   
   const [data , setdata ] = useState({email:"" , password :""});
   const dispatch = useDispatch();
@@ -27,8 +29,9 @@ const login = () => {
 
     }
 
-    if(res.data.user){
-      dispatch(userdata(res.data.user))
+    if (res.data.user) {
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+      dispatch(userdata(res.data.user));
     }
     
   };
