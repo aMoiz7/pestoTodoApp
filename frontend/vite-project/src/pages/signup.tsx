@@ -1,20 +1,18 @@
 import React, { useState } from 'react'
 import { signupUser } from '../apis/userapi';
+import { useNavigate } from 'react-router-dom';
 
 const signup = () => {
 
-
+ const navigate = useNavigate()
   const [data , setData] = useState({name:"" , username :"" , email:"" , password:"", avatar:null });
 
   const changeHandler=(e:React.ChangeEvent<HTMLInputElement>)=>{
     const { name, value, files } = e.target;
 
-    if (name === "avatar" && files)
-      {
-        
-      setData((prev) => ({ ...prev, [name]: files[0].name }));
-
-    } 
+    if (name === "avatar" && files && files.length > 0) {
+      setData((prev) => ({ ...prev, [name]: files[0] }));
+    }
 
     else {
 
@@ -38,7 +36,8 @@ const signup = () => {
 
     }
 
-    const res = await signupUser(formData);
+    const res =  await signupUser(formData);
+    if(res)navigate("/login")
     
   };
 

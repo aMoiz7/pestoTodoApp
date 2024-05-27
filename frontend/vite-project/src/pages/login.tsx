@@ -7,7 +7,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 const login = () => {
 
-  
+
   
   const [data , setdata ] = useState({email:"" , password :""});
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const login = () => {
     const res = await loginUser(data);
     if(res.data.accessToken){
       Cookies.set("accessToken",res.data.accessToken , {expires:7})
-      navigate("/home")
+      navigate("/")
 
     }
 
@@ -66,10 +66,7 @@ const login = () => {
           <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" >Sign in</button>
         </div>
       </form>
-      <p className="mt-10 text-center text-sm text-gray-500">
-        Not a member?
-        <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>
-      </p>
+   
     </div>
   </div></div>
 
